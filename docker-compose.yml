@@ -1,0 +1,17 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./reverse_proxy
+    ports:
+      - "80:80"
+    restart: always
+
+  application:
+    image:  abdeod/bmi-calculator-springboot:latest
+    expose:
+    - "8000"
+    depends_on:
+      nginx:
+        condition: service_started
+    restart: on-failure
